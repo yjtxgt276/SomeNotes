@@ -1,0 +1,15 @@
+题型： a) 设计系统 / 功能，缺描述
+	b) Trouble shooting 一般难以准备需要经验
+针对worst case scenario 进行优化，一般4s中storage部分尤其重要。
+RPS: request per sec, QPS是RPS的大约十倍两级；
+QPS的peak经验值大概在2到9倍
+
+QPS 决定了系统存储系统的选择，进而决定了系统的体系大小和复杂程度
+Service 分解能力体现了由大化小的工程能力
+Cache本地的静态文件的文件名是哈希值，服务器端改变某文件后哈希值会变，会导致重新下载
+cache可以设定过期时间（memchached），cache有可能被淘汰，类似os的机制，比如LRU，locality。
+cookies 不是cache
+cache需要严格避免脏数据（cache hit，并且和database不一致）
+web cache 的hit rate超过90
+cookie类似于通行证
+session_key是服务器端生成绝对唯一的密钥性质的字符串
