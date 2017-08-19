@@ -13,3 +13,6 @@ cache需要严格避免脏数据（cache hit，并且和database不一致）
 web cache 的hit rate超过90
 cookie类似于通行证
 session_key是服务器端生成绝对唯一的密钥性质的字符串
+
+serialization是指把一个object翻译成字符串进行存储
+sql的schema是metadata性质的，而nosql的row_key和col_key并不是metadata
