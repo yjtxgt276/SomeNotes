@@ -13,6 +13,11 @@ cache需要严格避免脏数据（cache hit，并且和database不一致）
 web cache 的hit rate超过90
 cookie类似于通行证
 session_key是服务器端生成绝对唯一的密钥性质的字符串
-
 serialization是指把一个object翻译成字符串进行存储
 sql的schema是metadata性质的，而nosql的row_key和col_key并不是metadata
+
+Consistent hashing very important for scaling since horizontal sharding relies on it.
+consisitent hashing 很多时候是用红黑树实现的 virtual node 的存储
+
+MySQL 的 Master-slave replica 机制中，所有的写操作需经过master，读操作可以由 slave 处理
+在某个极小的时间段内，replica无法保证数据的完全一致性
