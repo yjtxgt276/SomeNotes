@@ -7,3 +7,4 @@ SQL and relational database
 NoSQL and non-relational database
 Transaction
 Memcached 
+Storage: Block, Chunk, Metadata, Disk Offset
