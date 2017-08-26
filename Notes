@@ -1,11 +1,14 @@
+概述：
+Senario, Service, Storage, Scale
 题型： a) 设计系统 / 功能，缺描述
 	b) Trouble shooting 一般难以准备需要经验
 针对worst case scenario 进行优化，一般4s中storage部分尤其重要。
 RPS: request per sec, QPS是RPS的大约十倍两级；
 QPS的peak经验值大概在2到9倍
-
 QPS 决定了系统存储系统的选择，进而决定了系统的体系大小和复杂程度
 Service 分解能力体现了由大化小的工程能力
+
+数据库缓存：
 Cache本地的静态文件的文件名是哈希值，服务器端改变某文件后哈希值会变，会导致重新下载
 cache可以设定过期时间（memchached），cache有可能被淘汰，类似os的机制，比如LRU，locality。
 cookies 不是cache
@@ -16,8 +19,21 @@ session_key是服务器端生成绝对唯一的密钥性质的字符串
 serialization是指把一个object翻译成字符串进行存储
 sql的schema是metadata性质的，而nosql的row_key和col_key并不是metadata
 
+一致性哈希：
 Consistent hashing very important for scaling since horizontal sharding relies on it.
 consisitent hashing 很多时候是用红黑树实现的 virtual node 的存储
-
 MySQL 的 Master-slave replica 机制中，所有的写操作需经过master，读操作可以由 slave 处理
 在某个极小的时间段内，replica无法保证数据的完全一致性
+
+分布式文件系统：
+GFS, 存储量级是PB级的
+MapReduce 结构中的slave节点间存储的数据没有交集，类似于partition的关系
+存储大文件（100TB）用chunk代替block
+可以把每台chunkserver的响应的offset存在ChunkServer上
+开始的方案可以是“糙快猛”的，之后进行优化
+文件写入时，由client分拆文件，之后与master通信确定每个chunk的位置，然后将该chunk直接写入对应chunkserver
+分布式文件系统，不提供修改操作，而是采用读旧，写新，弃旧的过程
+master server只负责维护以及服务文件的metadata的查询请求，这样可以减轻master server的负担
+Scale是GFS的重中之重，实现PAXOS
+一般是读数据的时候进行文件数据校验（checksum检验）
+Heart beat, master periodically polls chunk servers and check if they are ok, OR, chunkserver peroidically report to master server that it's ok. Most systems use the latter fashion.
