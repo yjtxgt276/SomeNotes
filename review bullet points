@@ -8,3 +8,7 @@ NoSQL and non-relational database
 Transaction
 Memcached 
 Storage: Block, Chunk, Metadata, Disk Offset
+
+1. 倒排索引 Inverted Index
+2. 爬虫 Crawler
+3. 生产者消费者模型 Producer and Consumer
