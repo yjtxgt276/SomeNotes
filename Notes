@@ -37,3 +37,14 @@ master server只负责维护以及服务文件的metadata的查询请求，这�
 Scale是GFS的重中之重，实现PAXOS
 一般是读数据的时候进行文件数据校验（checksum检验）
 Heart beat, master periodically polls chunk servers and check if they are ok, OR, chunkserver peroidically report to master server that it's ok. Most systems use the latter fashion.
+
+Crawler
+每个网页需要反复的crawl：假设 1 trillion 个网页 （节点）
+	time efficiency: 一周遍历一次所有的网页（节点），平均每秒大约1.6m个网页
+	space efficiency: 网页文件，假设每个网页10k，一万亿个网页有1PB的数据
+Crawler基本上是个consumer / producer的模型，scale up的通行方法是多线程
+multithreading时，sleep会造成资源浪费，condition variable和mutex类似 （0/1锁），semaphore（多重锁）
+分布式的crawler，用一台db server存储任务队列，同时任务队列里的url不会被反复删除添加，只是修改state 和 available time。
+任务队列中available time用来控制抓取频率：只有 available time 时间点达到了的url会被抓取。
+Slow select：当任务队列数据库增长到巨大体积时，sql执行会非常缓慢，采取horizontal sharding + scheduler的办法，比如每个数据表各取100个url返还给crawler machine
+
