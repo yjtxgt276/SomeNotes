@@ -47,4 +47,20 @@ multithreading时，sleep会造成资源浪费，condition variable和mutex类�
 分布式的crawler，用一台db server存储任务队列，同时任务队列里的url不会被反复删除添加，只是修改state 和 available time。
 任务队列中available time用来控制抓取频率：只有 available time 时间点达到了的url会被抓取。
 Slow select：当任务队列数据库增长到巨大体积时，sql执行会非常缓慢，采取horizontal sharding + scheduler的办法，比如每个数据表各取100个url返还给crawler machine
+In the task queue db, the available time grows to 2 times longer if a crawler failed to access it. So in this way, a "real unavailable" page's available time would grow in a exponential speed to almost not available until forever.
+And for fast updating  pages, we cut the next available time in half, to make sure it's accessed frequent enough.
+Priority can be arranged according to available times.
+Quota can be used in case of a giant page consumes all resource of a crawler
+
+Typeahead
+系统关键在于 a) 数据来源与数据请求 b) 性能
+google为例，每次在搜索栏里面打一个字符就可能会使用一次typeahead系统；
+用db查找例如SELECT * FROM sometable WHERE something LIKE {blah} ORDERED BY hitcount, 会非常慢，原因可以直接看SQL语句
+优化思路可以是空间换时间：存prefix对应的keyword列表，把范围查找变为定点访问；
+继续优化思路，prefix很自然的使用到trie tree结构；在trie中，可以把平常的end flag存为该词的hit count以方便排序；
+query过程中需要先查找cache，避免硬盘查找
+用户搜索的keyword需要快速，无逻辑的写入log，然后再统计整个log以确定关键词
+Typeahead需要的是极为迅速的反馈，而不是准确性和时效性，所以甚至可以每两周统计一次log
+如果需要系统更快，可以再浏览器端做文章，比如浏览器端的缓存 
+由于Trie结构非常大（26^n）需要用到consistent hashing来分开存trie；具体是对输入的keyword进行hashing
 
