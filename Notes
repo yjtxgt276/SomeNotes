@@ -64,3 +64,6 @@ Typeahead需要的是极为迅速的反馈，而不是准确性和时效性，�
 如果需要系统更快，可以再浏览器端做文章，比如浏览器端的缓存 
 由于Trie结构非常大（26^n）需要用到consistent hashing来分开存trie；具体是对输入的keyword进行hashing
 
+MapReduce
+mapper和reducer机器由master机器管理
+map reduce 不做aggregation 因为在最后的合并步骤会产生瓶颈
