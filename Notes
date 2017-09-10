@@ -75,4 +75,6 @@ Trip table 读多写少， location table 读少写多
 location table一般会包含一个时间戳last updated time，目的是为了鉴定用户是否在线
 sys design经常需要做trade off 没有必要为了不必要的精确度而带来大量的实现难度
 sql中的逻辑操作过多会导致查询非常慢
-在google s2中存在一种“畸变”的现象，即在hilbert curve中有时在曲线上距离比较近的两个点在map到的数轴上反而距离很远，但出现情况非常少，也是可以接受的
+在google s2和geohash中都会存在一种“畸变”的现象，即在s2的hilbert curve中有时在曲线上距离比较近的两个点在map到的数轴上反而距离很远；而在geohash的peano曲线中会出现数轴上很近但平面图上很远的情况；出现情况非常少，是可以接受的。geohash的曲线出现畸变的情况比google s2的情况要稍微多一些因此准确性稍差，但也可以接受。
+geohash的基本思想就是在地图上画格子，可以在格子中继续画格子，因此可以通过字符串表示某一块区域，甚至随着字符串长度的增加可以精确到毫米级的范围
+redis虽然很快但不是很稳定，目前流行用作cache而不用做主存储数据库，因为在类似于Uber这种替代产品非常多的产品中，unavailable会造成大量的损失。
