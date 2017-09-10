@@ -68,3 +68,11 @@ MapReduce
 mapper和reducer机器由master机器管理
 map reduce 不做aggregation 因为在最后的合并步骤会产生瓶颈
 master负责split输入文件
+
+Location Based Service
+前端逻辑越简单越好，最好只处理界面呈现，所有请求传给同一个后端，由后端分发请求至不同的服务，并传送不同的请求结果回给前端
+Trip table 读多写少， location table 读少写多
+location table一般会包含一个时间戳last updated time，目的是为了鉴定用户是否在线
+sys design经常需要做trade off 没有必要为了不必要的精确度而带来大量的实现难度
+sql中的逻辑操作过多会导致查询非常慢
+在google s2中存在一种“畸变”的现象，即在hilbert curve中有时在曲线上距离比较近的两个点在map到的数轴上反而距离很远，但出现情况非常少，也是可以接受的
