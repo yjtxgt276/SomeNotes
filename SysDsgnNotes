@@ -95,6 +95,25 @@ NoSQL的在存储在文件中时是以类似string形式存储的，而不是表
 由于GFS对同一个文件在写完成了以后就不会再写了，而是append新值，在这个append过程中会block直到写入结束，因此不产生race condition
 分布式锁：chubby（google），zookeeper（open source）
 
+Messaging
+功能，服务，存储，规模
+一般qps超过一千就需要考虑分布数据库，虽然并不一定必要，但是考虑到稳定性是绝对需要的
+按照单条消息进行存储的schema更类似于留言或者邮件系统，对比gmail的系统，一个显著特点是gmail支持thread功能，即你和某人的某个email chain都在同一个thread下，所以使用thread table而不是message table
+许多算法中使用的东西比如merge k sorted list，在系统设计中是完全行不通的，因为处理系统工作时有些因素，比如io会导致算法实际执行特别慢
+系统设计的过程中，一般不大考虑节省空间的问题，效率是第一位的
+NoSQL出现的最初目的就是为了log系统，因为有大量的写操作，查询简单而且很少，所以类似于log（message）的系统存储使用nosql比较自然
+决定sharding key的考虑因素是需要在查询时尽量让需要查询的数据同时在同一台数据库上
+
+
+
+
+
+
+
+
+
+
+
 
 
 
