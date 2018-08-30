@@ -32,3 +32,27 @@ Loop through multiple lists using zip():
 -2
 -2
 >>>
+
+Generators are defined using yield:
+>>> def foo():
+...     for i in range(10):
+...             yield i
+...             yield i+1
+...
+>>> it = foo()
+>>> next(it)
+0
+>>> next(it)
+1
+>>> next(it)
+1
+>>> next(it)
+2
+>>> next(it)
+2
+>>> next(it)
+3
+>>> next(it)
+3
+>>> next(it)
+4
