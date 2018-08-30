@@ -11,3 +11,7 @@ A good example would be to flip a matrix below:
 >>> [list(t) for t in list(zip(*a))]
 [[1, 4, 7, 0], [2, 5, 8, 1], [3, 6, 9, 2]]
 
+Data member, or field, or member variable should not be defined in class, otherwise they are class variables:
+>>> class Foo:
+...     class_var = 0
+Also if an instance only have class vars, it'll be reused.
