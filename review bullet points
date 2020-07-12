@@ -1,14 +1,1 @@
-What's database? What's SQL data base? What's NoSQL database?
-High level arch of Twitter or other social medias, what's the essential problem to solve?
-What's Memchache?
-What happens when Lady Gaga posts a tweet? http://www.lintcode.com/problem/mini-twitter/
-MySQL
-SQL and relational database
-NoSQL and non-relational database
-Transaction
-Memcached 
-Storage: Block, Chunk, Metadata, Disk Offset
-
-1. 倒排索引 Inverted Index
-2. 爬虫 Crawler
-3. 生产者消费者模型 Producer and Consumer
+ugly number II - use of multiple indices / pointers
